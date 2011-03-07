@@ -66,3 +66,7 @@ else
   default[:postgresql][:version] = "8.4"
   set[:postgresql][:dir]            = "/etc/postgresql/#{node[:postgresql][:version]}/main"
 end
+
+# default to allowing no extra hosts in the pg_hba
+set[:postgresql][:md5hosts] = []
+set[:postgresql][:identhosts] = []
