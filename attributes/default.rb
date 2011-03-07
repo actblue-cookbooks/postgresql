@@ -70,3 +70,4 @@ end
 # default to allowing no extra hosts in the pg_hba
 set[:postgresql][:md5hosts] = []
 set[:postgresql][:identhosts] = []
+set[:postgresql][:idententries] = []
