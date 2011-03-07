@@ -41,6 +41,6 @@ map    /^(.*)$      \1
 
 # MAPNAME     IDENT-USERNAME    PG-USERNAME
 <% node[:postgresql][:idententries].each do |MAP| -%> 
-<%= "map    " + MAP -%>
+<%= "map    " + MAP %>
 <% end -%>
 
