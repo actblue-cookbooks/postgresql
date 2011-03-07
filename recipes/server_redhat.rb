@@ -82,3 +82,11 @@ template "#{node[:postgresql][:dir]}/postgresql.conf" do
   mode 0600
   notifies :restart, resources(:service => "postgresql")
 end
+
+template "#{node[:postgresql][:dir]}/pg_ident.conf" do
+  source "pg_ident.conf.erb"
+  owner "postgres"
+  group "postgres"
+  mode 0640
+  notifies :restart, resources(:service => "postgresql")
+end
