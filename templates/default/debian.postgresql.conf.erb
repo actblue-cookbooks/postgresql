@@ -167,8 +167,8 @@ max_fsm_pages = 153600			# min max_fsm_relations*16, 6 bytes each
 <% if node.postgresql.version == "8.4" %>
 # - Asynchronous Behavior -
 #effective_io_concurrency = 1           # 1-1000. 0 disables prefetching
-<% if(postgres.effective_io_concurrency) then -%>
-effective_io_concurrency = <%= postgres.effective_io_concurrency %>
+<% if(postgresql.effective_io_concurrency) then -%>
+effective_io_concurrency = <%= postgresql.effective_io_concurrency %>
 <% end -%>
 <% end -%>
 
@@ -179,7 +179,7 @@ effective_io_concurrency = <%= postgres.effective_io_concurrency %>
 
 # - Settings -
 
-<% if(postgres.no_fsync) then -%>
+<% if(postgresql.no_fsync) then -%>
 # Devel mode, disable fsync for speed
 fsync = off
 synchronous_commit = off
