@@ -402,7 +402,7 @@ wal_writer_delay = 500ms		# 1-10000 milliseconds
 					#   %q = stop here in non-session
 					#        processes
 					#   %% = '%'
-					# e.g. '<%u%%%d> '
+					# e.g. '%u%%%d '
 #log_lock_waits = off			# log lock waits >= deadlock_timeout
 #log_statement = 'none'			# none, ddl, mod, all
 #log_temp_files = -1			# log temporary files equal or larger
@@ -412,7 +412,7 @@ wal_writer_delay = 500ms		# 1-10000 milliseconds
 					# setting
 <% ["log_destination", "syslog_facility", "syslog_ident", "log_min_duration_statement", "log_duration", "log_line_prefix"].each do |setting| -%>
 <% if( node[:postgresql][setting] ) then -%>
-<%= setting %> = <%= node[:postgresql][setting] %>
+<%= setting %> = '<%= node[:postgresql][setting] %>'
 <% end-%>
 <% end-%>
 
