@@ -52,13 +52,15 @@ external_pid_file = '/var/run/postgresql/<%= node.postgresql.version -%>-main.pi
 #------------------------------------------------------------------------------
 
 # - Connection Settings -
-
+<% if(node.postgresql.listen_address) then -%>
+listen_addresses = '<%= node.postgresql.listen_address %>'
+<% end -%>
 #listen_addresses = 'localhost'		# what IP address(es) to listen on;
 					# comma-separated list of addresses;
 					# defaults to 'localhost', '*' = all
 					# (change requires restart)
 port = 5432				# (change requires restart)
-max_connections = 100			# (change requires restart)
+max_connections = <%= node.postgresql.max_connections %>			# (change requires restart)
 # Note:  Increasing max_connections costs ~400 bytes of shared memory per 
 # connection slot, plus lock space (see max_locks_per_transaction).  You might
 # also need to raise shared_buffers to support more connections.
@@ -100,7 +102,11 @@ ssl = true				# (change requires restart)
 					# 0 selects the system default
 #tcp_keepalives_count = 0		# TCP_KEEPCNT;
 					# 0 selects the system default
-
+<% ["tcp_keepalives_idle", "tcp_keepalives_interval", "tcp_keepalives_count"].each do |setting| -%>
+<% if( node[:postgresql][setting] ) then -%>
+<%= setting %> = <%= node[:postgresql][setting] %>
+<% end-%>
+<% end-%>
 
 #------------------------------------------------------------------------------
 # RESOURCE USAGE (except WAL)
@@ -108,7 +114,7 @@ ssl = true				# (change requires restart)
 
 # - Memory -
 
-shared_buffers = 24MB			# min 128kB or max_connections*16kB
+shared_buffers = <%= node.postgresql.shared_buffers %>			# min 128kB or max_connections*16kB
 					# (change requires restart)
 #temp_buffers = 8MB			# min 800kB
 #max_prepared_transactions = 5		# can be 0 or more
@@ -118,6 +124,12 @@ shared_buffers = 24MB			# min 128kB or max_connections*16kB
 #work_mem = 1MB				# min 64kB
 #maintenance_work_mem = 16MB		# min 1MB
 #max_stack_depth = 2MB			# min 100kB
+<% ["temp_buffers", "max_prepared_transactions", "work_mem", "maintenance_work_mem", "max_stack_depth"].each do |setting| -%>
+<% if( node[:postgresql][setting] ) then -%>
+<%= setting %> = <%= node[:postgresql][setting] %>
+<% end-%>
+<% end-%>
+
 
 # - Free Space Map -
 
@@ -152,6 +164,14 @@ max_fsm_pages = 153600			# min max_fsm_relations*16, 6 bytes each
 #bgwriter_lru_maxpages = 100		# 0-1000 max buffers written/round
 #bgwriter_lru_multiplier = 2.0		# 0-10.0 multipler on buffers scanned/round
 
+<% if node.postgresql.version == "8.4" %>
+# - Asynchronous Behavior -
+#effective_io_concurrency = 1           # 1-1000. 0 disables prefetching
+<% if(postgres.effective_io_concurrency) then -%>
+effective_io_concurrency = <%= postgres.effective_io_concurrency %>
+<% end -%>
+<% end -%>
+
 
 #------------------------------------------------------------------------------
 # WRITE AHEAD LOG
@@ -159,6 +179,12 @@ max_fsm_pages = 153600			# min max_fsm_relations*16, 6 bytes each
 
 # - Settings -
 
+<% if(postgres.no_fsync) then -%>
+# Devel mode, disable fsync for speed
+fsync = off
+synchronous_commit = off
+commit_delay = 1000
+<% end -%>
 #fsync = on				# turns forced synchronization on or off
 #synchronous_commit = on		# immediate fsync at commit
 #wal_sync_method = fsync		# the default is the first option 
@@ -171,17 +197,27 @@ max_fsm_pages = 153600			# min max_fsm_relations*16, 6 bytes each
 #full_page_writes = on			# recover from partial page writes
 #wal_buffers = 64kB			# min 32kB
 					# (change requires restart)
-#wal_writer_delay = 200ms		# 1-10000 milliseconds
+wal_writer_delay = 500ms		# 1-10000 milliseconds
 
 #commit_delay = 0			# range 0-100000, in microseconds
 #commit_siblings = 5			# range 1-1000
+<% ["wal_buffers"].each do |setting| -%>
+<% if( node[:postgresql][setting] ) then -%>
+<%= setting %> = <%= node[:postgresql][setting] %>
+<% end-%>
+<% end-%>
 
 # - Checkpoints -
-
 #checkpoint_segments = 3		# in logfile segments, min 1, 16MB each
 #checkpoint_timeout = 5min		# range 30s-1h
 #checkpoint_completion_target = 0.5	# checkpoint target duration, 0.0 - 1.0
 #checkpoint_warning = 30s		# 0 is off
+<% ["checkpoint_segments", "checkpoint_timeout", "checkpoint_completion_target", "checkpoint_warning"].each do |setting| -%>
+<% if( node[:postgresql][setting] ) then -%>
+<%= setting %> = <%= node[:postgresql][setting] %>
+<% end-%>
+<% end-%>
+
 
 # - Archiving -
 
@@ -190,6 +226,11 @@ max_fsm_pages = 153600			# min max_fsm_relations*16, 6 bytes each
 #archive_command = ''		# command to use to archive a logfile segment
 #archive_timeout = 0		# force a logfile segment switch after this
 				# time; 0 is off
+<% ["archive_mode", "archive_command", "archive_timeout"].each do |setting| -%>
+<% if( node[:postgresql][setting] ) then -%>
+<%= setting %> = <%= node[:postgresql][setting] %>
+<% end-%>
+<% end-%>
 
 
 #------------------------------------------------------------------------------
@@ -233,6 +274,12 @@ max_fsm_pages = 153600			# min max_fsm_relations*16, 6 bytes each
 #from_collapse_limit = 8
 #join_collapse_limit = 8		# 1 disables collapsing of explicit 
 					# JOIN clauses
+
+<% ["random_page_cost", "effective_cache_size"].each do |setting| -%>
+<% if( node[:postgresql][setting] ) then -%>
+<%= setting %> = <%= node[:postgresql][setting] %>
+<% end-%>
+<% end-%>
 
 
 #------------------------------------------------------------------------------
@@ -338,7 +385,7 @@ max_fsm_pages = 153600			# min max_fsm_relations*16, 6 bytes each
 #log_disconnections = off
 #log_duration = off
 #log_hostname = off
-log_line_prefix = '%t '			# special values:
+#log_line_prefix = '%t '		# special values:
 					#   %u = user name
 					#   %d = database name
 					#   %r = remote host and port
@@ -363,6 +410,11 @@ log_line_prefix = '%t '			# special values:
 					# -1 disables, 0 logs all temp files
 #log_timezone = unknown			# actually, defaults to TZ environment
 					# setting
+<% ["log_destination", "syslog_facility", "syslog_ident", "log_min_duration_statement", "log_duration", "log_line_prefix"].each do |setting| -%>
+<% if( node[:postgresql][setting] ) then -%>
+<%= setting %> = <%= node[:postgresql][setting] %>
+<% end-%>
+<% end-%>
 
 
 #------------------------------------------------------------------------------
@@ -409,6 +461,11 @@ log_line_prefix = '%t '			# special values:
 #autovacuum_vacuum_cost_limit = -1	# default vacuum cost limit for
 					# autovacuum, -1 means use
 					# vacuum_cost_limit
+<% ["autovacuum", "log_autovacuum_min_duration"].each do |setting| -%>
+<% if( node[:postgresql][setting] ) then -%>
+<%= setting %> = <%= node[:postgresql][setting] %>
+<% end-%>
+<% end-%>
 
 
 #------------------------------------------------------------------------------
