@@ -129,8 +129,8 @@ shared_buffers = <%= node.postgresql.shared_buffers %>			# min 128kB or max_conn
 
 # - Free Space Map -
 
-<% if node.postgresql.version == "8.4" %>
-<% # max_fsm_pages doesn't exist on 8.4 %>
+<% if node.postgresql.version != "8.3" %>
+<% # max_fsm_pages doesn't exist after 8.3 %>
 #max_fsm_pages = 153600			# min max_fsm_relations*16, 6 bytes each
 					# (change requires restart)
 <% else %>
@@ -160,7 +160,7 @@ max_fsm_pages = 153600			# min max_fsm_relations*16, 6 bytes each
 #bgwriter_lru_maxpages = 100		# 0-1000 max buffers written/round
 #bgwriter_lru_multiplier = 2.0		# 0-10.0 multipler on buffers scanned/round
 
-<% if node.postgresql.version == "8.4" %>
+<% if node.postgresql.version != "8.3" %>
 # - Asynchronous Behavior -
 #effective_io_concurrency = 1           # 1-1000. 0 disables prefetching
 <% if(node.postgresql.effective_io_concurrency) then -%>

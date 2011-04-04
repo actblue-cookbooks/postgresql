@@ -33,9 +33,9 @@
 # this file.  Instead, use the special map name "sameuser" in
 # pg_hba.conf.
 
-<% if node[:postgresql][:version] == "8.4" -%>
+<% if node[:postgresql][:version] != "8.3" -%>
 # Since we lose the implicite "sameuser" this recreates it
-# Well, in 8.4
+# Well, in everything after 8.3
 map    /^(.*)$      \1
 <% end -%>
 
