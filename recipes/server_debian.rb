@@ -24,6 +24,21 @@ when "8.3"
   node.default[:postgresql][:ssl] = "off"
 when "8.4"
   node.default[:postgresql][:ssl] = "true"
+when "9.0"
+  node.default[:postgresql][:ssl] = "true"
+  if( node[:platform] == "ubuntu" and node[:lsb][:codename] == "lucid")
+    # this ppa is from the postgres mainter. It should be okay to trust
+    apt_repository "ppa-postgresql-backports" do
+      uri "http://ppa.launchpad.net/pitti/postgresql/ubuntu"
+      key "8683D8A2"
+      keyserver "keyserver.ubuntu.com"
+      distribution node[:lsb][:codename]
+      components ["main"]
+      action :add
+    end
+  else
+    Chef::Log.error("postgresql 9.0 only supported on ubuntu lucid")
+  end
 end
 
 package "postgresql"
