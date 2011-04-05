@@ -485,7 +485,7 @@ wal_writer_delay = 500ms		# 1-10000 milliseconds
 
 # 9.0 postgres client settings
 <% ["bytea_output"].each do |setting| -%>
-<% if(node[:postgresql][setting] and node[:postgres][:version] == 9.0) then -%>
+<% if(node[:postgresql][setting] and node[:postgresql][:version] == "9.0") then -%>
 <%= setting %> = <%= node[:postgresql][setting] %>
 <% end-%>
 <% end-%>
