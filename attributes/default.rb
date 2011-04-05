@@ -106,3 +106,4 @@ default[:postgresql][:log_line_prefix] = '%t '
 default[:postgresql][:autovacuum] = nil
 default[:postgresql][:log_autovacuum_min_duration] = nil
 default[:postgresql][:ssl] = "on"
+default[:postgresql][:bytea_output] = nil
