@@ -53,7 +53,7 @@ directory node[:postgresql][:wal][:incomingdir] do
   owner "postgres"
   group "postgres"
   mode "0640"
-}
+end
 
 template "/usr/local/sbin/restrict-rsync.sh" do
   source "restrict-rsync.sh.erb"
