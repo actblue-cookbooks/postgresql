@@ -15,8 +15,8 @@ set -e
 
 logger -p local2.info "starting to ship logs: $@"
 
-<% if( node[:postgresql][:archive][:sshkey]) then -%>
-SSHKEY="-i <%= node[:postgresql][:archive][:sshkey]) %>"
+<% if( node[:postgresql][:archive][:sshkey] ) then -%>
+SSHKEY="-i <%= node[:postgresql][:archive][:sshkey] %>"
 <% else -%>
 SSHKEY=""
 <% end -%>
