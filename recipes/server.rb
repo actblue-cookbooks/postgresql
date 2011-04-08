@@ -50,9 +50,10 @@ end
 # set up some replication stuff. Since this is just directories and
 # ssh keys, it can exist everywhere.
 directory node[:postgresql][:wal][:incomingdir] do
+  recursive true
   owner "postgres"
   group "postgres"
-  mode "0640"
+  mode "0750"
 end
 
 template "/usr/local/sbin/restrict-rsync.sh" do
