@@ -46,3 +46,18 @@ when "debian", "ubuntu"
   node.default[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
   include_recipe "postgresql::server_debian"
 end
+
+# set up some replication stuff. Since this is just directories and
+# ssh keys, it can exist everywhere.
+directory node[:postgresql][:wal][:incomingdir] do
+  owner "postgres"
+  group "postgres"
+  mode "0640"
+}
+
+template "/usr/local/sbin/restrict-rsync.sh" do
+  source "restrict-rsync.sh.erb"
+  owner "root"
+  group "root"
+  mode "0755"
+end
