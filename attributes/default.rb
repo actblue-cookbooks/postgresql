@@ -81,9 +81,6 @@ default[:postgresql][:checkpoint_segments] = nil
 default[:postgresql][:checkpoint_timeout] = nil
 default[:postgresql][:checkpoint_completion_target] = nil
 default[:postgresql][:checkpoint_warning] = nil
-default[:postgresql][:archive_mode] = nil
-default[:postgresql][:archive_command] = nil
-default[:postgresql][:archive_timeout] = nil
 default[:postgresql][:random_page_cost] = nil
 default[:postgresql][:effective_cache_size] = nil
 default[:postgresql][:log_destination] = nil
@@ -97,7 +94,19 @@ default[:postgresql][:log_autovacuum_min_duration] = nil
 default[:postgresql][:ssl] = "on"
 default[:postgresql][:bytea_output] = nil
 
+# archive mode stuff
+default[:postgresql][:archive_mode] = "off"
+default[:postgresql][:archive_command] = "/usr/local/sbin/archive_command.sh"
+default[:postgresql][:archive_timeout] = nil
+default[:postgresql][:archive][:sshkey] = nil
+default[:postgresql][:archive][:targets] = []
+
+
+
 # replication related, postgres9 only
 default[:postgresql][:replication][:user] = "replication"
 default[:postgresql][:replication][:md5hosts] = []
 default[:postgresql][:replication][:identhosts] = []
+default[:postgresql][:wal_level] = "hot_standby"
+default[:postgresql][:max_wal_senders] = "5"
+default[:postgresql][:wal_keep_segments] = "32"

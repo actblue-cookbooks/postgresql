@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# This is supplied by chef
+
+# This command is called by postgres when it wants to archive WAL files.
+# It *must* exit with 0 when successful 
+# and *must* exit non-zero if something fails.
+# otherwise, we may lose a critical WAL.
+#
+# Since we have multiple rsync targets, we do some trickery with $EXIT_CODE
+EXIT_CODE=0
+
+# to that end, exit on any errors
+set -e
+
+logger -p local2.info "starting to ship logs: $@"
+
+<% if( node[:postgresql][:archive][:sshkey]) then -%>
+SSHKEY="-i <%= node[:postgresql][:archive][:sshkey]) %>"
+<% else -%>
+SSHKEY=""
+<% end -%>
+
+# We have various targets for the wal archives.
+# this lets us support keeping a backup-of-last-resort
+# in addition to the warm spares.
+<% node[:postgresql][:archive][:targets].each do |TARGET| -%> 
+rsync -e "ssh $SSHKEY" "$@" <%= TARGET %> || EXIT_CODE=$?
+<% end -%>
+
+logger -p local2.info "finished shipping logs: $@"
+exit $EXIT_CODE

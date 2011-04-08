@@ -26,15 +26,23 @@ when "8.4"
   node.default[:postgresql][:ssl] = "true"
 end
 
+# a generic archive propegation script. No real harm in dropping it
+# everywhere.
+template "/usr/local/sbin/archive_command.sh" do
+  source "archive_command.sh.erb"
+  owner "root"
+  group "root"
+  mode 0755
+end
+
+
 # Include the right "family" recipe for installing the server
 # since they do things slightly differently.
 case node.platform
 when "redhat", "centos", "fedora", "suse"
   node.default[:postgresql][:dir] = "/var/lib/pgsql/data"
   include_recipe "postgresql::server_redhat"
-
 when "debian", "ubuntu"
   node.default[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
   include_recipe "postgresql::server_debian"
-
 end
