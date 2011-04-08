@@ -103,12 +103,14 @@ default[:postgresql][:archive][:targets] = []
 
 
 # replication related, postgres9 only
-default[:postgresql][:replication][:user] = "replication"
+# Note tha I get errors if the username is `replication`
+default[:postgresql][:replication][:user] = "repluser"
 default[:postgresql][:replication][:md5hosts] = []
 default[:postgresql][:replication][:identhosts] = []
 default[:postgresql][:wal_level] = "hot_standby"
 default[:postgresql][:max_wal_senders] = "5"
 default[:postgresql][:wal_keep_segments] = "32"
+default[:postgresql][:hot_standby] = "on"
 
 default[:postgresql][:wal][:incomingdir] = "/pgincoming/wals"
 
