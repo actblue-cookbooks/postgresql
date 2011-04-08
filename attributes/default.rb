@@ -96,3 +96,8 @@ default[:postgresql][:autovacuum] = nil
 default[:postgresql][:log_autovacuum_min_duration] = nil
 default[:postgresql][:ssl] = "on"
 default[:postgresql][:bytea_output] = nil
+
+# replication related, postgres9 only
+default[:postgresql][:replication][:user] = "replication"
+default[:postgresql][:replication][:md5hosts] = []
+default[:postgresql][:replication][:identhosts] = []
