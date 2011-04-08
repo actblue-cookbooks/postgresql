@@ -96,7 +96,7 @@ default[:postgresql][:bytea_output] = nil
 
 # archive mode stuff
 default[:postgresql][:archive_mode] = "off"
-default[:postgresql][:archive_command] = "/usr/local/sbin/archive_command.sh"
+default[:postgresql][:archive_command] = '"/usr/local/sbin/archive_command.sh %p"'
 default[:postgresql][:archive_timeout] = nil
 default[:postgresql][:archive][:sshkey] = nil
 default[:postgresql][:archive][:targets] = []
