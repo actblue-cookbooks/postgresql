@@ -25,8 +25,6 @@ when "debian"
     default[:postgresql][:version] = "8.4"
   end
 
-  set[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
-
 when "ubuntu"
 
   if platform_version.to_f <= 9.04
@@ -34,8 +32,6 @@ when "ubuntu"
   else
     default[:postgresql][:version] = "8.4"
   end
-
-  set[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
 
 when "fedora"
 
@@ -45,12 +41,10 @@ when "fedora"
     default[:postgresql][:version] = "8.4"
   end
 
-  set[:postgresql][:dir] = "/var/lib/pgsql/data"
 
 when "redhat","centos"
 
   default[:postgresql][:version] = "8.4"
-  set[:postgresql][:dir] = "/var/lib/pgsql/data"
 
 when "suse"
 
@@ -60,11 +54,6 @@ when "suse"
     default[:postgresql][:version] = "8.4"
   end
 
-  set[:postgresql][:dir] = "/var/lib/pgsql/data"
-
-else
-  default[:postgresql][:version] = "8.4"
-  set[:postgresql][:dir]            = "/etc/postgresql/#{node[:postgresql][:version]}/main"
 end
 
 # default to allowing no extra hosts in the pg_hba

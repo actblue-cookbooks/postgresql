@@ -30,7 +30,11 @@ end
 # since they do things slightly differently.
 case node.platform
 when "redhat", "centos", "fedora", "suse"
+  node.default[:postgresql][:dir] = "/var/lib/pgsql/data"
   include_recipe "postgresql::server_redhat"
+
 when "debian", "ubuntu"
+  node.default[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
   include_recipe "postgresql::server_debian"
+
 end
