@@ -41,7 +41,7 @@ when "9.0"
   end
 end
 
-package "postgresql"
+package "postgresql-#{node[:postgresql][:version]}"
 
 service "postgresql" do
   service_name "postgresql"

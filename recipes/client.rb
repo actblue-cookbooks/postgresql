@@ -19,7 +19,7 @@
 
 case node.platform
 when "ubuntu","debian"
-  package "postgresql-client"
+  package "postgresql-client-#{node[:postgresql][:version]}"
 when "fedora","suse"
   package "postgresql-devel"
 when "redhat","centos"
