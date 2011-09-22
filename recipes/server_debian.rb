@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-include_recipe "postgresql::client"
-
 case node[:postgresql][:version]
 when "8.3"
   node.default[:postgresql][:ssl] = "off"
@@ -40,6 +38,8 @@ when "9.0"
     Chef::Log.error("postgresql 9.0 only supported on ubuntu lucid")
   end
 end
+
+include_recipe "postgresql::client"
 
 package "postgresql-#{node[:postgresql][:version]}"
 

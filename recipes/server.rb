@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-include_recipe "postgresql::client"
-
 case node[:postgresql][:version]
 when "8.3"
   node.default[:postgresql][:ssl] = "off"
@@ -46,6 +44,9 @@ when "debian", "ubuntu"
   node.default[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
   include_recipe "postgresql::server_debian"
 end
+
+include_recipe "postgresql::client"
+
 
 # set up some replication stuff. Since this is just directories and
 # ssh keys, it can exist everywhere.
