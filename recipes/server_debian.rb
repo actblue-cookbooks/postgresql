@@ -26,12 +26,11 @@ when "9.0"
   node.default[:postgresql][:ssl] = "true"
   if( node[:platform] == "ubuntu" and node[:lsb][:codename] == "lucid")
     # this ppa is from the postgres mainter. It should be okay to trust
-    apt_repository "ppa-postgresql-backports" do
-      uri "http://ppa.launchpad.net/pitti/postgresql/ubuntu"
-      key "8683D8A2"
-      keyserver "keyserver.ubuntu.com"
-      distribution node[:lsb][:codename]
-      components ["main"]
+    apt_repository "actbluetech" do
+      uri "https://s3.amazonaws.com/apt.actbluetech.com/"
+      key "https://s3.amazonaws.com/apt.actbluetech.com/pubkey.gpg"
+      distribution 'ats-lucid'
+      components %w[main]
       action :add
     end
   else
