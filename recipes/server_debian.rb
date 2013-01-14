@@ -17,6 +17,9 @@
 # limitations under the License.
 #
 
+# Ensure that our apt repo is available in case we are using 9.0
+include_recipe "actblue::apt"
+
 case node[:postgresql][:version]
 when "8.3"
   node.default[:postgresql][:ssl] = "off"
@@ -24,16 +27,7 @@ when "8.4"
   node.default[:postgresql][:ssl] = "true"
 when "9.0"
   node.default[:postgresql][:ssl] = "true"
-  if( node[:platform] == "ubuntu" and node[:lsb][:codename] == "lucid")
-    # this ppa is from the postgres mainter. It should be okay to trust
-    apt_repository "actbluetech" do
-      uri "https://s3.amazonaws.com/apt.actbluetech.com/"
-      key "https://s3.amazonaws.com/apt.actbluetech.com/pubkey.gpg"
-      distribution 'ats-lucid'
-      components %w[main]
-      action :add
-    end
-  else
+  if node[:platform] == "ubuntu" && node[:lsb][:codename] != "lucid"
     Chef::Log.error("postgresql 9.0 only supported on ubuntu lucid")
   end
 end

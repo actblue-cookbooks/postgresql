@@ -13,3 +13,5 @@ recipe            "postgresql::server", "Installs postgresql server packages, de
 %w{rhel centos fedora ubuntu debian suse}.each do |os|
   supports os
 end
+
+depends 'actblue'
