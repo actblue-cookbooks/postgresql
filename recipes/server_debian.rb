@@ -1,4 +1,3 @@
-#/postgresql.conf.
 # Cookbook Name:: postgresql
 # Recipe:: server
 #
@@ -16,9 +15,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-# Ensure that our apt repo is available in case we are using 9.0
-include_recipe "actblue::apt"
 
 case node[:postgresql][:version]
 when "8.3"
