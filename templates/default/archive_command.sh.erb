@@ -24,8 +24,8 @@ SSHKEY=""
 # We have various targets for the wal archives.
 # this lets us support keeping a backup-of-last-resort
 # in addition to the warm spares.
-<% node[:postgresql][:archive][:targets].each do |TARGET| -%> 
-rsync -e "ssh $SSHKEY" "$@" <%= TARGET %> || EXIT_CODE=$?
+<% node[:postgresql][:archive][:targets].each do |target| -%> 
+rsync -e "ssh $SSHKEY" "$@" <%= target %> || EXIT_CODE=$?
 <% end -%>
 
 logger -p local2.info "finished shipping logs: $@"

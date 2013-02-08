@@ -82,12 +82,12 @@ host    all         all         127.0.0.1/32          md5
 # IPv6 local connections:
 host    all         all         ::1/128               md5
 
-<% node[:postgresql][:md5hosts].each do |HOST| -%>
-host      all       all         <%= HOST -%>                  md5
+<% node[:postgresql][:md5hosts].each do |host| -%>
+host      all       all         <%= host -%>                  md5
 <% end -%>
 
-<% node[:postgresql][:identhosts].each do |HOST| -%>
-host      all       all         <%= HOST %>            <%= node[:postgresql][:version] == "8.3" ? "ident map" : "ident map=map" %>
+<% node[:postgresql][:identhosts].each do |host| -%>
+host      all       all         <%= host %>            <%= node[:postgresql][:version] == "8.3" ? "ident map" : "ident map=map" %>
 <% end -%>
 
 <% if(node[:postgresql][:version] == "9.0") then -%>
