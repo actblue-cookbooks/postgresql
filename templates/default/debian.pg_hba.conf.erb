@@ -92,10 +92,10 @@ host      all       all         <%= host %>            <%= node[:postgresql][:ve
 
 <% if(node[:postgresql][:version] == "9.0") then -%>
 # support for postgres 9.0's replication standby
-<%   node[:postgresql][:replication][:md5hosts].each do |HOST| -%>
-host replication <%= node[:postgresql][:replication][:user] %> <%= HOST %> md5
+<%   node[:postgresql][:replication][:md5hosts].each do |host| -%>
+host replication <%= node[:postgresql][:replication][:user] %> <%= host %> md5
 <%   end -%>
-<%   node[:postgresql][:replication][:identhosts].each do |HOST| -%>
-host replication <%= node[:postgresql][:replication][:user] %> <%= HOST %> ident map=map
+<%   node[:postgresql][:replication][:identhosts].each do |host| -%>
+host replication <%= node[:postgresql][:replication][:user] %> <%= host %> ident map=map
 <%   end -%>
 <% end -%>
