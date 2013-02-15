@@ -16,45 +16,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-case platform
-when "debian"
 
-  if platform_version.to_f == 5.0
-    default[:postgresql][:version] = "8.3"
-  elsif platform_version =~ /.*sid/
-    default[:postgresql][:version] = "8.4"
-  end
-
-when "ubuntu"
-
-  if platform_version.to_f <= 9.04
-    default[:postgresql][:version] = "8.3"
-  else
-    default[:postgresql][:version] = "8.4"
-  end
-
-when "fedora"
-
-  if platform_version.to_f <= 12
-    default[:postgresql][:version] = "8.3"
-  else
-    default[:postgresql][:version] = "8.4"
-  end
-
-
-when "redhat","centos"
-
-  default[:postgresql][:version] = "8.4"
-
-when "suse"
-
-  if platform_version.to_f <= 11.1
-    default[:postgresql][:version] = "8.3"
-  else
-    default[:postgresql][:version] = "8.4"
-  end
-
-end
+# This used to automatically choose default[:postgresql][:version]. We
+# will be setting that attribute ourselves until we replace this with a
+# more modern cookbook.
 
 # default to allowing no extra hosts in the pg_hba
 default[:postgresql][:md5hosts] = []
