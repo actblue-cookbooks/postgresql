@@ -23,9 +23,6 @@ when "8.4"
   node.default[:postgresql][:ssl] = "true"
 when "9.0"
   node.default[:postgresql][:ssl] = "true"
-  if node[:platform] == "ubuntu" && node[:lsb][:codename] != "lucid"
-    Chef::Log.error("postgresql 9.0 only supported on ubuntu lucid")
-  end
 end
 
 include_recipe "postgresql::client"
