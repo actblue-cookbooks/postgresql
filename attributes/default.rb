@@ -29,6 +29,7 @@ default[:postgresql][:idententries] = []
 # postgresql.conf settings
 # Things set to nil won't show up, and will take defaults
 default[:postgresql][:listen_address] = nil
+default[:postgresql][:listen_port] = 5432
 default[:postgresql][:max_connections] = 100
 default[:postgresql][:tcp_keepalives_idle] = nil
 default[:postgresql][:tcp_keepalives_interval] = nil
