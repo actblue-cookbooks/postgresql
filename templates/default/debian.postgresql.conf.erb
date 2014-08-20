@@ -464,7 +464,7 @@ wal_writer_delay = 500ms		# 1-10000 milliseconds
 #autovacuum_vacuum_cost_limit = -1	# default vacuum cost limit for
 					# autovacuum, -1 means use
 					# vacuum_cost_limit
-<% ["autovacuum", "log_autovacuum_min_duration"].each do |setting| -%>
+<% ["vacuum_cost_delay", "autovacuum", "log_autovacuum_min_duration"].each do |setting| -%>
 <% if( node[:postgresql][setting] ) then -%>
 <%= setting %> = <%= node[:postgresql][setting] %>
 <% end-%>
