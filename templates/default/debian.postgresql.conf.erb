@@ -230,7 +230,7 @@ wal_writer_delay = 500ms		# 1-10000 milliseconds
 <% end-%>
 
 # - Replication -
-<% ["wal_level", "max_wal_senders", "wal_keep_segments", "hot_standby", "max_standby_archive_delay", "max_standby_streaming_delay"].each do |setting| -%>
+<% ["wal_level", "max_wal_senders", "wal_keep_segments", "hot_standby", "hot_standby_feedback", "max_standby_archive_delay", "max_standby_streaming_delay"].each do |setting| -%>
 <% if(node[:postgresql][setting] and node[:postgresql][:version] =~ /^9\./) then -%>
 <%= setting %> = <%= node[:postgresql][setting] %>
 <% end-%>
