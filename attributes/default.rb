@@ -59,6 +59,7 @@ default[:postgresql][:autovacuum] = nil
 default[:postgresql][:log_autovacuum_min_duration] = nil
 default[:postgresql][:ssl] = "on"
 default[:postgresql][:bytea_output] = nil
+default[:postgresql][:timezone] = 'UTC'
 
 # archive mode stuff
 default[:postgresql][:archive_mode] = "off"
@@ -68,8 +69,8 @@ default[:postgresql][:archive][:sshkey] = nil
 default[:postgresql][:archive][:targets] = []
 
 
-# replication related, postgres9 only
-# Note tha I get errors if the username is `replication`
+# replication related
+# Note that seph got errors if the username was `replication`
 default[:postgresql][:replication][:user] = "repluser"
 default[:postgresql][:replication][:md5hosts] = []
 default[:postgresql][:replication][:identhosts] = []

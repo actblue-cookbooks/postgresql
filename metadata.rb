@@ -9,9 +9,8 @@ version           "0.11.1"
 recipe            "postgresql", "Empty, use one of the other recipes"
 recipe            "postgresql::client", "Installs postgresql client package(s)"
 recipe            "postgresql::server", "Installs postgresql server packages, templates"
-recipe            "postgresql::redhat", "Installs postgresql server packages, redhat family style"
-recipe            "postgresql::server", "Installs postgresql server packages, debian family style"
+recipe            "postgresql::server_debian", "Installs postgresql server packages, debian family style"
 
-%w{rhel centos fedora ubuntu debian suse}.each do |os|
+%w[ubuntu debian].each do |os|
   supports os
 end
