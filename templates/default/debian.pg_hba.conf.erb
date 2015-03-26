@@ -76,7 +76,7 @@ local   all         postgres                          ident
 # TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
 
 # "local" is for Unix domain socket connections only
-local   all         all                               <%= node[:postgresql][:version] == "8.3" ? "ident map" : "ident map=map" %>
+local   all         all                               md5
 # IPv4 local connections:
 host    all         all         127.0.0.1/32          md5
 # IPv6 local connections:
