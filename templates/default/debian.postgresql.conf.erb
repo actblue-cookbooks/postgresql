@@ -486,7 +486,7 @@ log_line_prefix = '%t [%p-%l] %q%u@%d '			# special values:
 					# than the specified size in kilobytes;
 					# -1 disables, 0 logs all temp files
 log_timezone = '<%= node[:postgresql][:timezone] %>'
-<% %w[log_destination syslog_facility syslog_ident log_min_duration_statement log_duration log_line_prefix].each do |setting| -%>
+<% %w[log_destination syslog_facility syslog_ident log_min_duration_statement log_duration log_line_prefix log_lock_waits].each do |setting| -%>
 <% if node[:postgresql][setting] -%>
 <%= setting %> = '<%= node[:postgresql][setting] %>'
 <% end -%>
@@ -609,8 +609,59 @@ lc_time = 'en_US.UTF-8'				# locale for time formatting
 # default configuration for text search
 default_text_search_config = 'pg_catalog.english'
 
-#exit_on_error = off			# terminate session on any error?
-#restart_after_crash = on		# reinitialize after backend crash?
+# - Other Defaults -
+
+#dynamic_library_path = '$libdir'
+#local_preload_libraries = ''
+#session_preload_libraries = ''
+
+
+#------------------------------------------------------------------------------
+# LOCK MANAGEMENT
+#------------------------------------------------------------------------------
+
+#deadlock_timeout = 1s
+#max_locks_per_transaction = 64         # min 10
+                                        # (change requires restart)
+# Note:  Each lock table slot uses ~270 bytes of shared memory, and there are
+# max_locks_per_transaction * (max_connections + max_prepared_transactions)
+# lock table slots.
+#max_pred_locks_per_transaction = 64    # min 10
+                                        # (change requires restart)
+<% %w[deadlock_timeout].each do |setting| -%>
+<% if node[:postgresql][setting] -%>
+<%= setting %> = <%= node[:postgresql][setting] %>
+<% end -%>
+<% end -%>
+
+
+#------------------------------------------------------------------------------
+# VERSION/PLATFORM COMPATIBILITY
+#------------------------------------------------------------------------------
+
+# - Previous PostgreSQL Versions -
+
+#array_nulls = on
+#backslash_quote = safe_encoding        # on, off, or safe_encoding
+#default_with_oids = off
+#escape_string_warning = on
+#lo_compat_privileges = off
+#quote_all_identifiers = off
+#sql_inheritance = on
+#standard_conforming_strings = on
+#synchronize_seqscans = on
+
+# - Other Platforms and Clients -
+
+#transform_null_equals = off
+
+
+#------------------------------------------------------------------------------
+# ERROR HANDLING
+#------------------------------------------------------------------------------
+
+#exit_on_error = off                    # terminate session on any error?
+#restart_after_crash = on               # reinitialize after backend crash?
 
 
 #------------------------------------------------------------------------------
