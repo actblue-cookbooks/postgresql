@@ -167,6 +167,11 @@ dynamic_shared_memory_type = posix	# the default is the first option
 #vacuum_cost_page_miss = 10		# 0-10000 credits
 #vacuum_cost_page_dirty = 20		# 0-10000 credits
 #vacuum_cost_limit = 200		# 1-10000 credits
+<% %w[vacuum_cost_delay vacuum_cost_limit].each do |setting| -%>
+<% if node[:postgresql][setting] -%>
+<%= setting %> = <%= node[:postgresql][setting] %>
+<% end -%>
+<% end -%>
 
 # - Background Writer -
 
@@ -546,7 +551,7 @@ stats_temp_directory = '/var/run/postgresql/<%= node[:postgresql][:version] %>-m
 #autovacuum_vacuum_cost_limit = -1	# default vacuum cost limit for
 					# autovacuum, -1 means use
 					# vacuum_cost_limit
-<% %w[vacuum_cost_delay autovacuum log_autovacuum_min_duration].each do |setting| -%>
+<% %w[autovacuum log_autovacuum_min_duration autovacuum_naptime autovacuum_vacuum_threshold autovacuum_analyze_threshold autovacuum_vacuum_scale_factor autovacuum_analyze_scale_factor autovacuum_vacuum_cost_delay autovacuum_vacuum_cost_limit].each do |setting| -%>
 <% if node[:postgresql][setting] -%>
 <%= setting %> = <%= node[:postgresql][setting] %>
 <% end -%>
