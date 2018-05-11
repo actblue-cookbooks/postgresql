@@ -38,15 +38,15 @@
 # The default values of these variables are driven from the -D command-line
 # option or PGDATA environment variable, represented here as ConfigDir.
 
-data_directory = '/var/lib/postgresql/<%= node[:postgresql][:version] %>/main'		# use data in another directory
+data_directory = '/var/lib/postgresql/<%= node['postgresql']['version'] %>/main'		# use data in another directory
 					# (change requires restart)
-hba_file = '/etc/postgresql/<%= node[:postgresql][:version] %>/main/pg_hba.conf'	# host-based authentication file
+hba_file = '/etc/postgresql/<%= node['postgresql']['version'] %>/main/pg_hba.conf'	# host-based authentication file
 					# (change requires restart)
-ident_file = '/etc/postgresql/<%= node[:postgresql][:version] %>/main/pg_ident.conf'	# ident configuration file
+ident_file = '/etc/postgresql/<%= node['postgresql']['version'] %>/main/pg_ident.conf'	# ident configuration file
 					# (change requires restart)
 
 # If external_pid_file is not explicitly set, no extra PID file is written.
-external_pid_file = '/var/run/postgresql/<%= node[:postgresql][:version] %>-main.pid'			# write an extra PID file
+external_pid_file = '/var/run/postgresql/<%= node['postgresql']['version'] %>-main.pid'			# write an extra PID file
 					# (change requires restart)
 
 
@@ -56,15 +56,15 @@ external_pid_file = '/var/run/postgresql/<%= node[:postgresql][:version] %>-main
 
 # - Connection Settings -
 
-<% if node[:postgresql][:listen_address] -%>
-listen_addresses = '<%= node[:postgresql][:listen_address] %>'
+<% if node['postgresql']['listen_address'] -%>
+listen_addresses = '<%= node['postgresql']['listen_address'] %>'
 <% end -%>
 #listen_addresses = 'localhost'		# what IP address(es) to listen on;
 					# comma-separated list of addresses;
 					# defaults to 'localhost'; use '*' for all
 					# (change requires restart)
-port = <%= node[:postgresql][:listen_port] %>				# (change requires restart)
-max_connections = <%= node[:postgresql][:max_connections] %>			# (change requires restart)
+port = <%= node['postgresql']['listen_port'] %>				# (change requires restart)
+max_connections = <%= node['postgresql']['max_connections'] %>			# (change requires restart)
 # Note:  Increasing max_connections costs ~400 bytes of shared memory per
 # connection slot, plus lock space (see max_locks_per_transaction).
 #superuser_reserved_connections = 3	# (change requires restart)
@@ -81,7 +81,7 @@ unix_socket_directories = '/var/run/postgresql'	# comma-separated list of direct
 # - Security and Authentication -
 
 #authentication_timeout = 1min		# 1s-600s
-ssl = <%= node[:postgresql][:ssl] %>				# (change requires restart)
+ssl = <%= node['postgresql']['ssl'] %>				# (change requires restart)
 #ssl_ciphers = 'HIGH:MEDIUM:+3DES:!aNULL' # allowed SSL ciphers
 					# (change requires restart)
 #ssl_prefer_server_ciphers = on		# (change requires restart)
@@ -107,13 +107,11 @@ ssl_key_file = '/etc/ssl/private/ssl-cert-snakeoil.key'		# (change requires rest
 					# 0 selects the system default
 #tcp_keepalives_count = 0		# TCP_KEEPCNT;
 					# 0 selects the system default
-<% %w[tcp_keepalives_idle tcp_keepalives_interval tcp_keepalives_count].each do |setting| -%>
-<% if node[:postgresql][setting] -%>
-<%= setting %> = <%= node[:postgresql][setting] %>
+<% %w(tcp_keepalives_idle tcp_keepalives_interval tcp_keepalives_count).each do |setting| -%>
+<% if node['postgresql'][setting] -%>
+<%= setting %> = <%= node['postgresql'][setting] %>
 <% end -%>
 <% end -%>
-
-
 
 #------------------------------------------------------------------------------
 # RESOURCE USAGE (except WAL)
@@ -143,9 +141,9 @@ dynamic_shared_memory_type = posix	# the default is the first option
 					#   windows
 					#   mmap
 					# use none to disable dynamic shared memory
-<% %w[temp_buffers max_prepared_transactions work_mem maintenance_work_mem max_stack_depth].each do |setting| -%>
-<% if node[:postgresql][setting] -%>
-<%= setting %> = <%= node[:postgresql][setting] %>
+<% %w(temp_buffers max_prepared_transactions work_mem maintenance_work_mem max_stack_depth).each do |setting| -%>
+<% if node['postgresql'][setting] -%>
+<%= setting %> = <%= node['postgresql'][setting] %>
 <% end -%>
 <% end -%>
 
@@ -167,9 +165,9 @@ dynamic_shared_memory_type = posix	# the default is the first option
 #vacuum_cost_page_miss = 10		# 0-10000 credits
 #vacuum_cost_page_dirty = 20		# 0-10000 credits
 #vacuum_cost_limit = 200		# 1-10000 credits
-<% %w[vacuum_cost_delay vacuum_cost_limit].each do |setting| -%>
-<% if node[:postgresql][setting] -%>
-<%= setting %> = <%= node[:postgresql][setting] %>
+<% %w(vacuum_cost_delay vacuum_cost_limit).each do |setting| -%>
+<% if node['postgresql'][setting] -%>
+<%= setting %> = <%= node['postgresql'][setting] %>
 <% end -%>
 <% end -%>
 
@@ -182,8 +180,8 @@ dynamic_shared_memory_type = posix	# the default is the first option
 # - Asynchronous Behavior -
 
 #effective_io_concurrency = 1		# 1-1000; 0 disables prefetching
-<% if node[:postgresql][:effective_io_concurrency] -%>
-effective_io_concurrency = <%= node[:postgresql][:effective_io_concurrency] %>
+<% if node['postgresql']['effective_io_concurrency'] -%>
+effective_io_concurrency = <%= node['postgresql']['effective_io_concurrency'] %>
 <% end -%>
 #max_worker_processes = 8
 
@@ -194,7 +192,7 @@ effective_io_concurrency = <%= node[:postgresql][:effective_io_concurrency] %>
 
 # - Settings -
 
-<% if node[:postgresql][:no_fsync] -%>
+<% if node['postgresql']['no_fsync'] -%>
 # Devel mode, disable fsync for speed
 fsync = off
 full_page_writes = off
@@ -225,9 +223,9 @@ commit_delay = 1000
 
 #commit_delay = 0			# range 0-100000, in microseconds
 #commit_siblings = 5			# range 1-1000
-<% %w[wal_buffers commit_delay].each do |setting| -%>
-<% if node[:postgresql][setting] -%>
-<%= setting %> = <%= node[:postgresql][setting] %>
+<% %w(wal_buffers commit_delay).each do |setting| -%>
+<% if node['postgresql'][setting] -%>
+<%= setting %> = <%= node['postgresql'][setting] %>
 <% end -%>
 <% end -%>
 
@@ -238,9 +236,9 @@ commit_delay = 1000
 #min_wal_size = 80MB
 #checkpoint_completion_target = 0.5	# checkpoint target duration, 0.0 - 1.0
 #checkpoint_warning = 30s		# 0 disables
-<% %w[checkpoint_timeout max_wal_size min_wal_size checkpoint_completion_target checkpoint_warning].each do |setting| -%>
-<% if node[:postgresql][setting] -%>
-<%= setting %> = <%= node[:postgresql][setting] %>
+<% %w(checkpoint_timeout max_wal_size min_wal_size checkpoint_completion_target checkpoint_warning).each do |setting| -%>
+<% if node['postgresql'][setting] -%>
+<%= setting %> = <%= node['postgresql'][setting] %>
 <% end -%>
 <% end -%>
 
@@ -254,9 +252,9 @@ commit_delay = 1000
 				# e.g. 'test ! -f /mnt/server/archivedir/%f && cp %p /mnt/server/archivedir/%f'
 #archive_timeout = 0		# force a logfile segment switch after this
 				# number of seconds; 0 disables
-<% %w[archive_mode archive_command archive_timeout].each do |setting| -%>
-<% if node[:postgresql][setting] -%>
-<%= setting %> = <%= node[:postgresql][setting] %>
+<% %w(archive_mode archive_command archive_timeout).each do |setting| -%>
+<% if node['postgresql'][setting] -%>
+<%= setting %> = <%= node['postgresql'][setting] %>
 <% end -%>
 <% end -%>
 
@@ -309,12 +307,11 @@ commit_delay = 1000
 					# in milliseconds; 0 disables
 #wal_retrieve_retry_interval = 5s	# time to wait before retrying to
 					# retrieve WAL after a failed attempt
-<% %w[wal_level max_wal_senders wal_keep_segments hot_standby hot_standby_feedback max_standby_archive_delay max_standby_streaming_delay].each do |setting| -%>
-<% if node[:postgresql][setting] -%>
-<%= setting %> = <%= node[:postgresql][setting] %>
+<% %w(wal_level max_wal_senders wal_keep_segments hot_standby hot_standby_feedback max_standby_archive_delay max_standby_streaming_delay).each do |setting| -%>
+<% if node['postgresql'][setting] -%>
+<%= setting %> = <%= node['postgresql'][setting] %>
 <% end -%>
 <% end -%>
-
 
 #------------------------------------------------------------------------------
 # QUERY TUNING
@@ -361,12 +358,11 @@ commit_delay = 1000
 #from_collapse_limit = 8
 #join_collapse_limit = 8		# 1 disables collapsing of explicit
 					# JOIN clauses
-<% %w[random_page_cost effective_cache_size default_statistics_target].each do |setting| -%>
-<% if node[:postgresql][setting] -%>
-<%= setting %> = <%= node[:postgresql][setting] %>
+<% %w(random_page_cost effective_cache_size default_statistics_target).each do |setting| -%>
+<% if node['postgresql'][setting] -%>
+<%= setting %> = <%= node['postgresql'][setting] %>
 <% end -%>
 <% end -%>
-
 
 #------------------------------------------------------------------------------
 # ERROR REPORTING AND LOGGING
@@ -498,20 +494,18 @@ log_line_prefix = '%t [%p-%l] %q%u@%d '			# special values:
 #log_temp_files = -1			# log temporary files equal or larger
 					# than the specified size in kilobytes;
 					# -1 disables, 0 logs all temp files
-log_timezone = '<%= node[:postgresql][:timezone] %>'
-<% %w[log_destination syslog_facility syslog_ident log_min_duration_statement log_duration log_line_prefix log_lock_waits].each do |setting| -%>
-<% if node[:postgresql][setting] -%>
-<%= setting %> = '<%= node[:postgresql][setting] %>'
+log_timezone = '<%= node['postgresql']['timezone'] %>'
+<% %w(log_destination syslog_facility syslog_ident log_min_duration_statement log_duration log_line_prefix log_lock_waits).each do |setting| -%>
+<% if node['postgresql'][setting] -%>
+<%= setting %> = '<%= node['postgresql'][setting] %>'
 <% end -%>
 <% end -%>
-
 
 # - Process Title -
 
 #cluster_name = ''			# added to process titles if nonempty
 					# (change requires restart)
 #update_process_title = on
-
 
 #------------------------------------------------------------------------------
 # RUNTIME STATISTICS
@@ -524,7 +518,7 @@ log_timezone = '<%= node[:postgresql][:timezone] %>'
 #track_io_timing = off
 #track_functions = none			# none, pl, all
 #track_activity_query_size = 1024	# (change requires restart)
-stats_temp_directory = '/var/run/postgresql/<%= node[:postgresql][:version] %>-main.pg_stat_tmp'
+stats_temp_directory = '/var/run/postgresql/<%= node['postgresql']['version'] %>-main.pg_stat_tmp'
 
 
 # - Statistics Monitoring -
@@ -565,9 +559,9 @@ stats_temp_directory = '/var/run/postgresql/<%= node[:postgresql][:version] %>-m
 #autovacuum_vacuum_cost_limit = -1	# default vacuum cost limit for
 					# autovacuum, -1 means use
 					# vacuum_cost_limit
-<% %w[autovacuum log_autovacuum_min_duration autovacuum_naptime autovacuum_vacuum_threshold autovacuum_analyze_threshold autovacuum_vacuum_scale_factor autovacuum_analyze_scale_factor autovacuum_vacuum_cost_delay autovacuum_vacuum_cost_limit].each do |setting| -%>
-<% if node[:postgresql][setting] -%>
-<%= setting %> = <%= node[:postgresql][setting] %>
+<% %w(autovacuum log_autovacuum_min_duration autovacuum_naptime autovacuum_vacuum_threshold autovacuum_analyze_threshold autovacuum_vacuum_scale_factor autovacuum_analyze_scale_factor autovacuum_vacuum_cost_delay autovacuum_vacuum_cost_limit).each do |setting| -%>
+<% if node['postgresql'][setting] -%>
+<%= setting %> = <%= node['postgresql'][setting] %>
 <% end -%>
 <% end -%>
 
@@ -598,9 +592,9 @@ stats_temp_directory = '/var/run/postgresql/<%= node[:postgresql][:version] %>-m
 #xmloption = 'content'
 #gin_fuzzy_search_limit = 0
 #gin_pending_list_limit = 4MB
-<% %w[bytea_output].each do |setting| -%>
-<% if node[:postgresql][setting] -%>
-<%= setting %> = <%= node[:postgresql][setting] %>
+<% %w(bytea_output).each do |setting| -%>
+<% if node['postgresql'][setting] -%>
+<%= setting %> = <%= node['postgresql'][setting] %>
 <% end -%>
 <% end -%>
 
@@ -608,7 +602,7 @@ stats_temp_directory = '/var/run/postgresql/<%= node[:postgresql][:version] %>-m
 
 datestyle = 'iso, mdy'
 #intervalstyle = 'postgres'
-timezone = '<%= node[:postgresql][:timezone] %>'
+timezone = '<%= node['postgresql']['timezone'] %>'
 #timezone_abbreviations = 'Default'     # Select the set of available time zone
 					# abbreviations.  Currently, there are
 					#   Default
@@ -636,7 +630,6 @@ default_text_search_config = 'pg_catalog.english'
 #local_preload_libraries = ''
 #session_preload_libraries = ''
 
-
 #------------------------------------------------------------------------------
 # LOCK MANAGEMENT
 #------------------------------------------------------------------------------
@@ -649,9 +642,9 @@ default_text_search_config = 'pg_catalog.english'
 # lock table slots.
 #max_pred_locks_per_transaction = 64	# min 10
 					# (change requires restart)
-<% %w[deadlock_timeout].each do |setting| -%>
-<% if node[:postgresql][setting] -%>
-<%= setting %> = <%= node[:postgresql][setting] %>
+<% %w(deadlock_timeout).each do |setting| -%>
+<% if node['postgresql'][setting] -%>
+<%= setting %> = <%= node['postgresql'][setting] %>
 <% end -%>
 <% end -%>
 
@@ -676,7 +669,6 @@ default_text_search_config = 'pg_catalog.english'
 # - Other Platforms and Clients -
 
 #transform_null_equals = off
-
 
 #------------------------------------------------------------------------------
 # ERROR HANDLING

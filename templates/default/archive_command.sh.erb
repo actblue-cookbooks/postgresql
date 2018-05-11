@@ -3,7 +3,7 @@
 # This is supplied by chef
 
 # This command is called by postgres when it wants to archive WAL files.
-# It *must* exit with 0 when successful 
+# It *must* exit with 0 when successful
 # and *must* exit non-zero if something fails.
 # otherwise, we may lose a critical WAL.
 #
@@ -15,8 +15,8 @@ set -e
 
 logger -p local2.info "starting to ship logs: $@"
 
-<% if( node[:postgresql][:archive][:sshkey] ) then -%>
-SSHKEY="-i <%= node[:postgresql][:archive][:sshkey] %>"
+<% if( node['postgresql']['archive']['sshkey'] ) then -%>
+SSHKEY="-i <%= node['postgresql']['archive']['sshkey'] %>"
 <% else -%>
 SSHKEY=""
 <% end -%>
@@ -24,7 +24,7 @@ SSHKEY=""
 # We have various targets for the wal archives.
 # this lets us support keeping a backup-of-last-resort
 # in addition to the warm spares.
-<% node[:postgresql][:archive][:targets].each do |target| -%> 
+<% node['postgresql']['archive']['targets'].each do |target| -%>
 rsync -e "ssh $SSHKEY" "$@" <%= target %> || EXIT_CODE=$?
 <% end -%>
 

@@ -72,9 +72,6 @@
 # listen on a non-local interface via the listen_addresses
 # configuration parameter, or via the -i or -h command line switches.
 
-
-
-
 # DO NOT DISABLE!
 # If you change this first entry you will need to make sure that the
 # database superuser can access the database using some other method.
@@ -93,17 +90,17 @@ host    all             all             127.0.0.1/32            md5
 # IPv6 local connections:
 host    all             all             ::1/128                 md5
 # Chef configured connections
-<% node[:postgresql][:md5hosts].each do |host| -%>
+<% node['postgresql']['md5hosts'].each do |host| -%>
 host    all             all             <%= host %>             md5
 <% end -%>
-<% node[:postgresql][:identhosts].each do |host| -%>
+<% node['postgresql']['identhosts'].each do |host| -%>
 host    all             all             <%= host %>             ident map=map
 <% end -%>
-<% node[:postgresql][:replication][:md5hosts].each do |host| -%>
-host replication <%= node[:postgresql][:replication][:user] %> <%= host %> md5
+<% node['postgresql']['replication']['md5hosts'].each do |host| -%>
+host replication <%= node['postgresql']['replication']['user'] %> <%= host %> md5
 <% end -%>
-<% node[:postgresql][:replication][:identhosts].each do |host| -%>
-host replication <%= node[:postgresql][:replication][:user] %> <%= host %> ident map=map
+<% node['postgresql']['replication']['identhosts'].each do |host| -%>
+host replication <%= node['postgresql']['replication']['user'] %> <%= host %> ident map=map
 <% end -%>
 # Allow replication connections from localhost, by a user with the
 # replication privilege.

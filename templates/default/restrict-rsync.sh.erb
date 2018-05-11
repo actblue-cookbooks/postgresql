@@ -1,35 +1,34 @@
-#!/bin/sh 
+#!/bin/sh
 
 # simple script to ensure we only are getting used by an rsync
 # server. Kinda grotty, but it'll do.
 
-case "$SSH_ORIGINAL_COMMAND" in 
-    "")
-        echo "Rejected" 
-        ;; 
-    *\&*) 
-    echo "Rejected" 
-    ;; 
-    *\(*) 
-        echo "Rejected" 
-        ;; 
-    *\{*) 
-        echo "Rejected" 
-        ;; 
-    *\;*) 
-        echo "Rejected" 
-        ;; 
-    *\<*) 
-        echo "Rejected" 
-        ;; 
-    *\`*) 
-        echo "Rejected" 
-        ;; 
-    rsync\ --server*) 
-        exec $SSH_ORIGINAL_COMMAND
-        ;; 
-    *) 
-        echo "Rejected" 
-        ;; 
-esac 
-
+case "$SSH_ORIGINAL_COMMAND" in
+  "")
+    echo "Rejected"
+    ;;
+  *\&*)
+    echo "Rejected"
+    ;;
+  *\(*)
+    echo "Rejected"
+    ;;
+  *\{*)
+    echo "Rejected"
+    ;;
+  *\;*)
+    echo "Rejected"
+    ;;
+  *\<*)
+    echo "Rejected"
+    ;;
+  *\`*)
+    echo "Rejected"
+    ;;
+  rsync\ --server*)
+    exec $SSH_ORIGINAL_COMMAND
+    ;;
+  *)
+    echo "Rejected"
+    ;;
+esac
