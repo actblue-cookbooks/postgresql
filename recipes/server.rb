@@ -15,17 +15,17 @@ node.normal['postgresql']['dir'] = "/etc/postgresql/#{node['postgresql']['versio
 include_recipe 'postgresql::client'
 
 package "postgresql-#{node['postgresql']['version']}" do
-  version "#{node['postgresql']['version_full']}-1.pgdg14.04+1"
+  version "#{node['postgresql']['version_full']}.pgdg14.04+1"
   action :install
 end
 
 package "postgresql-contrib-#{node['postgresql']['version']}" do
-  version "#{node['postgresql']['version_full']}-1.pgdg14.04+1"
+  version "#{node['postgresql']['version_full']}.pgdg14.04+1"
   action :install
 end
 
 package 'postgresql-plperl-9.6' do
-  version "#{node['postgresql']['version_full']}-1.pgdg14.04+1"
+  version "#{node['postgresql']['version_full']}.pgdg14.04+1"
   action :install
 end
 
