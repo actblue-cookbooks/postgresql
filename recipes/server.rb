@@ -14,14 +14,29 @@ node.normal['postgresql']['dir'] = "/etc/postgresql/#{node['postgresql']['versio
 
 include_recipe 'postgresql::client'
 
+apt_preference "postgresql-#{node['postgresql']['version']}" do
+  pin          "version #{node['postgresql']['version_full']}.pgdg14.04+1"
+  pin_priority '700'
+end
+
 package "postgresql-#{node['postgresql']['version']}" do
   version "#{node['postgresql']['version_full']}.pgdg14.04+1"
   action :install
 end
 
+apt_preference "postgresql-contrib-#{node['postgresql']['version']}" do
+  pin          "version #{node['postgresql']['version_full']}.pgdg14.04+1"
+  pin_priority '700'
+end
+
 package "postgresql-contrib-#{node['postgresql']['version']}" do
   version "#{node['postgresql']['version_full']}.pgdg14.04+1"
   action :install
+end
+
+apt_preference 'postgresql-plperl-9.6' do
+  pin          "version #{node['postgresql']['version_full']}.pgdg14.04+1"
+  pin_priority '700'
 end
 
 package 'postgresql-plperl-9.6' do
