@@ -468,7 +468,8 @@ commit_delay = 1000
 #log_duration = off
 #log_error_verbosity = default		# terse, default, or verbose messages
 #log_hostname = off
-log_line_prefix = '%t [%p-%l] %q%u@%d '			# special values:
+#log_line_prefix = '%t [%p-%l] %q%u@%d '
+# special values:
 					#   %a = application name
 					#   %u = user name
 					#   %d = database name
@@ -495,7 +496,7 @@ log_line_prefix = '%t [%p-%l] %q%u@%d '			# special values:
 					# than the specified size in kilobytes;
 					# -1 disables, 0 logs all temp files
 log_timezone = '<%= node['postgresql']['timezone'] %>'
-<% %w(log_destination syslog_facility syslog_ident log_min_duration_statement log_duration log_line_prefix log_lock_waits).each do |setting| -%>
+<% %w(log_destination syslog_facility syslog_ident log_min_duration_statement log_duration log_checkpoints log_connections log_disconnections log_lock_waits log_temp_files log_autovacuum_min_duration log_error_verbosity log_statement lc_messages log_line_prefix log_lock_waits).each do |setting| -%>
 <% if node['postgresql'][setting] -%>
 <%= setting %> = '<%= node['postgresql'][setting] %>'
 <% end -%>

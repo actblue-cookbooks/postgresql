@@ -31,7 +31,16 @@ default['postgresql']['syslog_facility'] = nil
 default['postgresql']['syslog_ident'] = nil
 default['postgresql']['log_min_duration_statement'] = nil
 default['postgresql']['log_duration'] = nil
-default['postgresql']['log_line_prefix'] = '%t '
+default['postgresql']['log_checkpoints'] = 'on'
+default['postgresql']['log_connections'] = 'on'
+default['postgresql']['log_disconnections'] = 'on'
+default['postgresql']['log_lock_waits'] = 'on'
+default['postgresql']['log_temp_files'] = 0
+default['postgresql']['log_autovacuum_min_duration'] = 0
+default['postgresql']['log_error_verbosity'] = 'default'
+default['postgresql']['log_statement'] = 'off'
+default['postgresql']['lc_messages'] = 'C'
+default['postgresql']['log_line_prefix'] = '%t [%p]: [%l-1] db=%d,user=%u,app=%a,client=%h '
 default['postgresql']['autovacuum'] = nil
 default['postgresql']['log_autovacuum_min_duration'] = nil
 default['postgresql']['ssl'] = 'on'
