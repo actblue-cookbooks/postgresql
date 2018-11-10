@@ -496,7 +496,7 @@ commit_delay = 1000
 					# than the specified size in kilobytes;
 					# -1 disables, 0 logs all temp files
 log_timezone = '<%= node['postgresql']['timezone'] %>'
-<% %w(log_destination syslog_facility syslog_ident log_min_duration_statement log_duration log_checkpoints log_connections log_disconnections log_lock_waits log_temp_files log_autovacuum_min_duration log_error_verbosity log_statement lc_messages log_line_prefix log_lock_waits).each do |setting| -%>
+<% %w(log_destination syslog_facility syslog_ident log_min_duration_statement log_duration log_checkpoints log_connections log_disconnections log_lock_waits log_temp_files log_error_verbosity log_statement log_line_prefix log_lock_waits).each do |setting| -%>
 <% if node['postgresql'][setting] -%>
 <%= setting %> = '<%= node['postgresql'][setting] %>'
 <% end -%>
@@ -616,7 +616,7 @@ timezone = '<%= node['postgresql']['timezone'] %>'
 					# encoding
 
 # These settings are initialized by initdb, but they can be changed.
-#lc_messages = 'en_US.UTF-8'			# locale for system error message
+lc_messages = '<%= node['postgresql']['lc_messages'] %>'			# locale for system error message
 					# strings
 lc_monetary = 'en_US.UTF-8'			# locale for monetary formatting
 lc_numeric = 'en_US.UTF-8'			# locale for number formatting
