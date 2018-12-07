@@ -63,7 +63,8 @@ template "#{node['postgresql']['dir']}/postgresql.conf" do
   owner 'postgres'
   group 'postgres'
   mode '0600'
-  notifies :restart, 'service[postgresql]'
+  notifies :reload, 'service[postgresql]'
+  # notifies :restart, 'service[postgresql]'
 end
 
 template "#{node['postgresql']['dir']}/pg_ident.conf" do
@@ -71,7 +72,7 @@ template "#{node['postgresql']['dir']}/pg_ident.conf" do
   owner 'postgres'
   group 'postgres'
   mode '0640'
-  notifies :restart, 'service[postgresql]'
+  # notifies :restart, 'service[postgresql]'
 end
 
 # set up some replication stuff. Since this is just directories and
