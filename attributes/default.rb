@@ -37,7 +37,7 @@ default['postgresql']['log_disconnections'] = 'on'
 default['postgresql']['log_lock_waits'] = 'on'
 default['postgresql']['log_temp_files'] = 0
 default['postgresql']['log_error_verbosity'] = 'default'
-default['postgresql']['log_statement'] = 'off'
+default['postgresql']['log_statement'] = 'none'
 default['postgresql']['lc_messages'] = 'C'
 default['postgresql']['log_line_prefix'] = '%t [%p]: [%l-1] db=%d,user=%u,app=%a,client=%h '
 default['postgresql']['autovacuum'] = nil
