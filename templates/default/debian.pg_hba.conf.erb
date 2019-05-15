@@ -102,6 +102,12 @@ host replication <%= node['postgresql']['replication']['user'] %> <%= host %> md
 <% node['postgresql']['replication']['identhosts'].each do |host| -%>
 host replication <%= node['postgresql']['replication']['user'] %> <%= host %> ident map=map
 <% end -%>
+<% node['postgresql']['replication']['md5hosts'].each do |host| -%>
+host replication <%= node['postgresql']['replication']['export_user'] %> <%= host %> md5
+<% end -%>
+<% node['postgresql']['replication']['identhosts'].each do |host| -%>
+host replication <%= node['postgresql']['replication']['export_user'] %> <%= host %> ident map=map
+<% end -%>
 # Allow replication connections from localhost, by a user with the
 # replication privilege.
 #local   replication     postgres                                peer

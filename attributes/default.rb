@@ -45,6 +45,7 @@ default['postgresql']['log_autovacuum_min_duration'] = 0
 default['postgresql']['ssl'] = 'on'
 default['postgresql']['bytea_output'] = nil
 default['postgresql']['timezone'] = 'UTC'
+default['postgresql']['shared_preload_libraries'] = 'pglogical'
 
 # archive mode stuff
 default['postgresql']['archive_mode'] = 'off'
@@ -56,6 +57,7 @@ default['postgresql']['archive']['targets'] = []
 # replication related
 # Note that seph got errors if the username was `replication`
 default['postgresql']['replication']['user'] = 'repluser'
+default['postgresql']['replication']['export_user'] = 'replexport'
 default['postgresql']['replication']['md5hosts'] = []
 default['postgresql']['replication']['identhosts'] = []
 default['postgresql']['wal_level'] = 'logical'

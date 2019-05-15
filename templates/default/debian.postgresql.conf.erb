@@ -307,7 +307,7 @@ commit_delay = 1000
 					# in milliseconds; 0 disables
 #wal_retrieve_retry_interval = 5s	# time to wait before retrying to
 					# retrieve WAL after a failed attempt
-<% %w(wal_level max_wal_senders max_replication_slots wal_sender_timeout idle_in_transaction_session_timeout wal_keep_segments hot_standby hot_standby_feedback max_standby_archive_delay max_standby_streaming_delay).each do |setting| -%>
+<% %w(wal_level max_wal_senders max_replication_slots wal_sender_timeout idle_in_transaction_session_timeout wal_keep_segments hot_standby hot_standby_feedback max_standby_archive_delay max_standby_streaming_delay shared_preload_libraries).each do |setting| -%>
 <% if node['postgresql'][setting] -%>
 <%= setting %> = <%= node['postgresql'][setting] %>
 <% end -%>
