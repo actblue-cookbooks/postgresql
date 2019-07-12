@@ -540,6 +540,9 @@ stats_temp_directory = '/var/run/postgresql/<%= node['postgresql']['version'] %>
 					# their durations, > 0 logs only
 					# actions running at least this number
 					# of milliseconds.
+<% if node['postgresql']['autovacuum_max_workers'] -%>
+autovacuum_max_workers = <%= node['postgresql']['autovacuum_max_workers'] %>
+<% end -%>
 #autovacuum_max_workers = 3		# max number of autovacuum subprocesses
 					# (change requires restart)
 #autovacuum_naptime = 1min		# time between autovacuum runs
